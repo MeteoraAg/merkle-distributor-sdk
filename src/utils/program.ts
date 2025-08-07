@@ -9,4 +9,4 @@ export function createMerkleDistributorProgram(provider: anchor.Provider, progra
   return program;
 }
 
-export const MERKLE_DISTRIBUTOR_PROGRAM_ID = new web3.PublicKey('meRjbQXFNf5En86FXT2YPz1dQzLj4Yb3xK8u1MVgqpb');
+export const MERKLE_DISTRIBUTOR_PROGRAM_ID = new web3.PublicKey('DiS3nNjFVMieMgmiQFm6wgJL7nevk4NrhXKLbtEH1Z2R');

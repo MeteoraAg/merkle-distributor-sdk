@@ -1,7 +1,7 @@
 {
-  "name": "@jup-ag/merkle-distributor-sdk",
-  "version": "0.0.3",
-  "description": "Merkle distributor SDK",
+  "name": "@meteora-ag/merkle-distributor-sdk",
+  "version": "0.0.4",
+  "description": "Merkle Distributor SDK",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "scripts": {
@@ -27,10 +27,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jup-ag/merkle-distributor-sdk.git"
+    "url": "git+https://github.com/MeteoraAg/merkle-distributor-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/jup-ag/merkle-distributor-sdk/issues"
+    "url": "https://github.com/MeteoraAg/merkle-distributor-sdk/issues"
   },
-  "homepage": "https://github.com/jup-ag/merkle-distributor-sdk#readme"
+  "homepage": "https://github.com/MeteoraAg/merkle-distributor-sdk#readme"
 }

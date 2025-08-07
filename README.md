@@ -3,7 +3,7 @@
 ## Installing
 
 ```
-npm i @jup-ag/merkle-distributor-sdk
+npm i @meteora-ag/merkle-distributor-sdk
 ```
 
 ## How to use
@@ -11,7 +11,7 @@ npm i @jup-ag/merkle-distributor-sdk
 1. Initialize MerkleDistributor instance
 
 ```ts
-import MerkleDistributor from '@jup-ag/merkle-distributor-sdk';
+import MerkleDistributor from '@meteora-ag/merkle-distributor-sdk';
 import { PublicKey } from '@solana/web3.js';
 import { AnchorProvider, web3 } from '@coral-xyz/anchor';
 import { Connection } from '@solana/web3.js';
@@ -24,7 +24,7 @@ const provider = new AnchorProvider(mainnetConnection, mockWallet, {
 
 const merkleDistributor = new MerkleDistributor(provider, {
   targetToken: new PublicKey(TARGET_TOKEN), // the token to be distributed.
-  claimProofEndpoint: 'https://worker.jup.ag/jup-claim-proof',
+  claimProofEndpoint: 'https://worker.meteora.ag/meteora-claim-proof',
 });
 ```
 
