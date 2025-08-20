@@ -12,5 +12,6 @@
     "noImplicitAny": false,
     "skipLibCheck": true
   },
-  "exclude": ["**/*.test.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["**/*.test.ts", "scripts/**/*", "dist/**/*"]
 }

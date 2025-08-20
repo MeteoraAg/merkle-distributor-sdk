@@ -11,5 +11,7 @@
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["scripts/**/*", "dist/**/*", "node_modules/**/*"]
 }
