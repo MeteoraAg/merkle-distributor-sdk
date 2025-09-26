@@ -23,14 +23,15 @@ Claim tokens from the merkle tree
 **Function**
 
 ```typescript
-async claimToken(claimant: PublicKey): Promise<Transaction>;
+async claimToken(params: ClaimTokenParam): Promise<Transaction>;
 ```
 
 **Parameters**
 
 ```typescript
-{
+interface ClaimTokenParam {
   claimant: PublicKey; // The claimant's public key
+  distributorAccountData?: Distributor; // The distributor account data
 }
 ```
 
@@ -55,6 +56,7 @@ const signature = await sendAndConfirmTransaction(connection, newClaimTx, [
 **Notes**
 
 - When signing the transaction, the claimant must sign the transaction.
+- The `distributorAccountData` is optional and will be fetched within the `claimToken` function if not provided.
 
 ---
 
