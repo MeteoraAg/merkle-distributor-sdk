@@ -1,56 +1,50 @@
-# Merkle Distributor SDK
+# Meteora Merkle Distributor SDK
 
-## Installing
+A Typescript SDK for interacting with the Merkle Distributor Program on Meteora.
 
-```
-npm i @jup-ag/merkle-distributor-sdk
-```
+## Overview
 
-## How to use
+This SDK provides a set of tools and methods to interact with the Meteora Merkle Distributor Program. It enables developers to distribute tokens to their users.
 
-1. Initialize MerkleDistributor instance
+## Installation
 
-```ts
-import MerkleDistributor from '@jup-ag/merkle-distributor-sdk';
-import { PublicKey } from '@solana/web3.js';
-import { AnchorProvider, web3 } from '@coral-xyz/anchor';
-import { Connection } from '@solana/web3.js';
-
-const mainnetConnection = new Connection('https://api.mainnet-beta.solana.com');
-const mockWallet = new Wallet(new Keypair());
-const provider = new AnchorProvider(mainnetConnection, mockWallet, {
-  commitment: 'confirmed',
-});
-
-const merkleDistributor = new MerkleDistributor(provider, {
-  targetToken: new PublicKey(TARGET_TOKEN), // the token to be distributed.
-  claimProofEndpoint: 'https://worker.jup.ag/jup-claim-proof',
-});
+```bash
+npm install @meteora-ag/merkle-distributor-sdk
+# or
+pnpm install @meteora-ag/merkle-distributor-sdk
+# or
+yarn add @meteora-ag/merkle-distributor-sdk
 ```
 
-2. To claim token with MerkleDistributor
+## Initialization
 
-```ts
-const ixs = await merkleDistributor.claimToken(publicKey);
-const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('confirmed');
-let transaction = new Transaction({
-  feePayer: publicKey,
-  blockhash,
-  lastValidBlockHeight,
-}).add(...ixs);
+```typescript
+import { Connection } from "@solana/web3.js";
+import { MerkleDistributorClient } from "@meteora-ag/merkle-distributor-sdk";
 
-transaction = await wallet.signTransaction(transaction);
-
-const rawTransaction = transaction.serialize();
-const txid = await connection.sendRawTransaction(rawTransaction, {
-  skipPreflight: true,
-});
+const connection = new Connection("https://api.mainnet-beta.solana.com");
+const tokenMint = new PublicKey("YOUR_TOKEN_MINT");
+const claimProofEndpoint = "YOUR_CLAIM_PROOF_ENDPOINT";
+const client = new MerkleDistributorClient(
+  tokenMint,
+  claimProofEndpoint,
+  connection,
+  "confirmed"
+);
 ```
 
-3. To get claim status of a user
+## Usage
 
-```ts
-const claimStatus = await merkleDistributor.getClaimStatus(publicKey);
-const amount = claimStatus?.amount;
-const isClaimed = claimStatus?.isClaimed;
+Refer to the [docs](./docs.md) for how to use the functions.
+
+## Test
+
+```bash
+pnpm install
+pnpm test
 ```
+
+## Program Address
+
+- Mainnet-beta: `DiSLRwcSFvtwvMWSs7ubBMvYRaYNYupa76ZSuYLe6D7j`
+- Devnet: `DiSLRwcSFvtwvMWSs7ubBMvYRaYNYupa76ZSuYLe6D7j`

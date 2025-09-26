@@ -1,9 +1,19 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Commitment, Connection, PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
-import BN from 'bn.js';
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {
+  Commitment,
+  Connection,
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
+import BN from "bn.js";
 
-import { Distributor, MerkleDistributorProgram } from './types';
-import { createMerkleDistributorProgram, deriveClaimStatusAddress, getOrCreateATAInstruction } from './helpers';
+import { Distributor, MerkleDistributorProgram } from "./types";
+import {
+  createMerkleDistributorProgram,
+  deriveClaimStatusAddress,
+  getOrCreateATAInstruction,
+} from "./helpers";
 
 export interface UserResponse {
   merkle_tree: string;
@@ -18,7 +28,12 @@ export class MerkleDistributorClient {
   private connection: Connection;
   private commitment: Commitment;
 
-  constructor(mint: PublicKey, claimProofEndpoint: string, connection: Connection, commitment: Commitment) {
+  constructor(
+    mint: PublicKey,
+    claimProofEndpoint: string,
+    connection: Connection,
+    commitment: Commitment
+  ) {
     this.program = createMerkleDistributorProgram(connection, commitment);
     this.mint = mint;
     this.claimProofEndpoint = claimProofEndpoint;
@@ -28,7 +43,11 @@ export class MerkleDistributorClient {
 
   async getUser(claimant: PublicKey): Promise<UserResponse | null> {
     try {
-      const res = await fetch(`${this.claimProofEndpoint}/${this.mint.toBase58()}/${claimant.toBase58()}`);
+      const res = await fetch(
+        `${
+          this.claimProofEndpoint
+        }/${this.mint.toBase58()}/${claimant.toBase58()}`
+      );
 
       if (!res.ok) {
         return null;
@@ -40,7 +59,9 @@ export class MerkleDistributorClient {
     }
   }
 
-  async getClaimStatus(claimant: PublicKey): Promise<{ amount: BN; isClaimed: boolean } | null> {
+  async getClaimStatus(
+    claimant: PublicKey
+  ): Promise<{ amount: BN; isClaimed: boolean } | null> {
     if (!claimant) {
       return null;
     }
@@ -51,9 +72,14 @@ export class MerkleDistributorClient {
       return null;
     }
 
-    const claimStatusAddress = deriveClaimStatusAddress(claimant, new PublicKey(user.merkle_tree));
+    const claimStatusAddress = deriveClaimStatusAddress(
+      claimant,
+      new PublicKey(user.merkle_tree)
+    );
 
-    const status = await this.program.account.claimStatus.fetchNullable(claimStatusAddress);
+    const status = await this.program.account.claimStatus.fetchNullable(
+      claimStatusAddress
+    );
 
     return {
       amount: new BN(user.amount),
@@ -62,31 +88,35 @@ export class MerkleDistributorClient {
   }
 
   async getDistributor(merkleTree: PublicKey): Promise<Distributor | null> {
-    const distributor = await this.program.account.merkleDistributor.fetchNullable(merkleTree);
+    const distributor =
+      await this.program.account.merkleDistributor.fetchNullable(merkleTree);
 
     return distributor;
   }
 
   async claimToken(claimant: PublicKey): Promise<Transaction> {
     if (!claimant) {
-      throw new Error('Claimant is required');
+      throw new Error("Claimant is required");
     }
 
     const user = await this.getUser(claimant);
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     const { proof, merkle_tree } = user;
     const distributorAddress = new PublicKey(merkle_tree);
-    const claimStatusAddress = deriveClaimStatusAddress(claimant, distributorAddress);
+    const claimStatusAddress = deriveClaimStatusAddress(
+      claimant,
+      distributorAddress
+    );
 
     const tokenProgram = TOKEN_PROGRAM_ID;
 
     const distributor = await this.getDistributor(distributorAddress);
     if (!distributor) {
-      throw new Error('Distributor not found');
+      throw new Error("Distributor not found");
     }
 
     const mint = new PublicKey(distributor.mint);
@@ -99,7 +129,7 @@ export class MerkleDistributorClient {
       claimant,
       claimant,
       true,
-      tokenProgram,
+      tokenProgram
     );
     toATAIx && preInstructions.push(toATAIx);
 
@@ -109,7 +139,7 @@ export class MerkleDistributorClient {
       distributorAddress,
       claimant,
       true,
-      tokenProgram,
+      tokenProgram
     );
     mdATAIx && preInstructions.push(mdATAIx);
 
