@@ -6,3 +6,6 @@ target
 node_modules
 
 dist
+
+scripts
+package-lock.json
