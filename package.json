@@ -1,37 +1,52 @@
 {
   "name": "@meteora-ag/merkle-distributor-sdk",
-  "version": "0.0.8",
-  "description": "Merkle Distributor SDK",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json && tsc -p tsconfig.esm.json"
-  },
+  "version": "1.0.0",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "author": "Dann Wee <dann@raccoons.dev>",
+  "keywords": [
+    "meteora-ag",
+    "merkle-distributor"
+  ],
   "files": [
     "dist"
   ],
-  "keywords": [],
-  "author": "",
+  "description": "A Typescript SDK for interacting with the Merkle Distributor Program on Meteora.",
   "license": "MIT",
-  "dependencies": {
-    "@coral-xyz/anchor": "^0.29.0",
-    "@solana/spl-token": "0.1.8",
-    "@solana/web3.js": "~1.87.6"
+  "packageManager": "pnpm@10.15.0",
+  "type": "module",
+  "scripts": {
+    "build": "rm -rf dist && tsup src/index.ts --format esm,cjs --dts",
+    "clean": "rm -rf node_modules dist",
+    "test": "pnpm test"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.1",
-    "tsx": "^4.20.4",
-    "typescript": "^4.7.2"
+    "@types/bn.js": "^5.2.0",
+    "@types/bun": "latest",
+    "@types/chai": "^5.2.2",
+    "chai": "^6.0.1",
+    "eslint": "^9.36.0",
+    "solana-bankrun": "^0.4.0",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.5"
   },
-  "directories": {
-    "test": "tests"
+  "peerDependencies": {
+    "typescript": "^5"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MeteoraAg/merkle-distributor-sdk.git"
-  },
-  "bugs": {
-    "url": "https://github.com/MeteoraAg/merkle-distributor-sdk/issues"
-  },
-  "homepage": "https://github.com/MeteoraAg/merkle-distributor-sdk#readme"
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "bn.js": "^5.2.2",
+    "decimal.js": "^10.6.0"
+  }
 }
