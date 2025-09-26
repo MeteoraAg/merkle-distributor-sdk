@@ -8,18 +8,12 @@ import {
 } from "@solana/web3.js";
 import BN from "bn.js";
 
-import { Distributor, MerkleDistributorProgram } from "./types";
+import { Distributor, MerkleDistributorProgram, UserResponse } from "./types";
 import {
   createMerkleDistributorProgram,
   deriveClaimStatusAddress,
   getOrCreateATAInstruction,
 } from "./helpers";
-
-export interface UserResponse {
-  merkle_tree: string;
-  amount: number;
-  proof: number[][];
-}
 
 export class MerkleDistributorClient {
   program: MerkleDistributorProgram;
